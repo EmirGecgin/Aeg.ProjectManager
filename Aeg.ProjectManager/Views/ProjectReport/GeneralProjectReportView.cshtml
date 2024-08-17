@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "GeneralProjectReportView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-6">
+        @Html.Action("DonePriorityGroup", "ProjectReport")
+    </div>
+    <div class="col-md-6">
+        @Html.Action("NotDonePriorityGroup", "ProjectReport")
+    </div>
+</div>
+
+

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Aeg.ProjectManager.Models.Personel.Personel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.js"></script>
+
+<div class="card">
+    <h4 class="card-header">Personel Listesi</h4>
+    <div class="card-body">
+        <div class="">
+            <table id="personelList" class="table ">
+                <thead>
+                    <tr >
+                        <th>
+                            @Html.DisplayNameFor(model => model.email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.password)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Auth)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NameSurname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PersonelImage)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PersonelId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Department)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Duty)
+                        </th>
+
+                        <th>Aksiyonlar</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PositionDescription)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="mailto:@item.email">@item.email</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.password)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Auth)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NameSurname)
+                            </td>
+                            <td>
+                                <img src="@item.PersonelImage" class="rounded rounded-circle" style="width:50px; height:50px;" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PersonelId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Department)
+                            </td>
+                            <td>
+                                <a href="/Personels/Edit/@item.Id" type="button" class="btn btn-xs btn-success"><span class="tf-icon bx bx-edit" S></span> </a>
+                                <a href="/Personels/Details/@item.Id" type="button" class="btn btn-xs  btn-primary"><span class="tf-icon bx bx-detail" S></span> </a>
+                                <a href="/Personels/Delete/@item.Id" type="button" class="btn btn-xs  btn-danger"><span class="tf-icon bx bx-trash" S></span> </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Duty)
+                            </td>
+
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PositionDescription)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#personelList').DataTable({
+        language: {
+            info: "_TOTAL_ kayıttan _START_ - _END_ kayıt gösteriliyor.",
+            infoEmpty: "Gösterilecek hiç kayıt yok.",
+            loadingRecords: "Kayıtlar yükleniyor.",
+            zeroRecords: "Tablo boş",
+            search: "Arama:",
+            infoFiltered: "(toplam _MAX_ kayıttan filtrelenenler)",
+            buttons: {
+                copyTitle: "Panoya kopyalandı.",
+                copySuccess: "Panoya %d satır kopyalandı",
+                copy: "Kopyala",
+                print: "Yazdır",
+            },
+
+            paginate: {
+                first: "İlk",
+                previous: "Önceki",
+                next: "Sonraki",
+                last: "Son"
+            },
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+</script>

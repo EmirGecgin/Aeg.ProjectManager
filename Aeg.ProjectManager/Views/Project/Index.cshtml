@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Aeg.ProjectManager.Models.Project.Project>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-html5-1.3.1/b-print-1.3.1/r-2.1.1/rg-1.0.0/datatables.min.js"></script>
+<div class="card pt-1 px-3">
+    <h4 class="card-header p-0 pb-3 pt-3">Proje Genel Bakış</h4>
+    <div class="table-responsive text-nowrap">
+        <table class="table" id="projectList">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Priority Status</th>
+                    <th>Project Date</th>
+                    <th>Responsibles</th>
+                    <th>Status</th>
+                    <th>Done Ratio</th>
+                    <th>Actions</th>
+                    <th>Project Explanation</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>@item.ProjectName</strong></td>
+
+                        <td>
+                            @if (item.PriorityStatus == "Düşük Öncelikli")
+                            {
+                                <span class="badge bg-label-info me-1" style="width:170px">@item.PriorityStatus</span>
+                            }
+                            else if (item.PriorityStatus == "Orta Öncelikli")
+                            {
+                                <span class="badge bg-label-warning me-1" style="width:170px">@item.PriorityStatus</span>
+                            }
+                            else if (item.PriorityStatus == "Yüksek Öncelikli")
+                            {
+                                <span class="badge bg-label-danger me-1" style="width:170px">@item.PriorityStatus</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-label-primary me-1" style="width:170px">@item.PriorityStatus</span>
+                            }
+                        </td>
+                        <td>@item.CreatedDate</td>
+                        <td>
+                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                @foreach (var y in item.Personels)
+                                {
+                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="" data-bs-original-title="@y.NameSurname">
+                                        <img src="@y.PersonelImage" alt="Avatar" class="rounded-circle">
+                                    </li>
+                                }
+
+
+                            </ul>
+                        </td>
+                        <td>
+                            @if (!item.doneStatus)
+                            {
+                                <span class="badge bg-label-danger me-1" style="width:50px"><i class='bx bxs-x-square'></i></span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-label-success  me-1" style="width:50px"><i class='bx bxs-check-square'></i></span>
+
+                            }
+                        </td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: @item.DoneRatio%;background-color:#696cff !important;" aria-valuenow="@item.DoneRatio" aria-valuemin="0" aria-valuemax="100">
+                                    @item.DoneRatio%
+                                </div>
+                            </div>
+                        <td>
+                            <div>
+                                <a href="/Project/Edit/@item.Id" type="button" class="btn btn-xs btn-warning"><span class="bx bx-edit"></span></a>
+                                <a href="/Project/DoneProject/@item.Id" type="button" class="btn btn-xs btn-success"><span class="bx bx-check "></span></a>
+                            </div>
+                        </td>
+                        <td>@item.ProjectDescription</td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('#projectList').DataTable({
+        language: {
+            info: "_TOTAL_ kayıttan _START_ - _END_ kayıt gösteriliyor.",
+            infoEmpty: "Gösterilecek hiç kayıt yok.",
+            loadingRecords: "Kayıtlar yükleniyor.",
+            zeroRecords: "Tablo boş",
+            search: "Arama:",
+            infoFiltered: "(toplam _MAX_ kayıttan filtrelenenler)",
+            buttons: {
+                copyTitle: "Panoya kopyalandı.",
+                copySuccess: "Panoya %d satır kopyalandı",
+                copy: "Kopyala",
+                print: "Yazdır",
+            },
+
+            paginate: {
+                first: "İlk",
+                previous: "Önceki",
+                next: "Sonraki",
+                last: "Son"
+            },
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+</script>
+
